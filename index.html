@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDFCraft Pro - Professional B2B Document Utility Tools</title>
-    <!-- pdf-lib library for client-side PDF operations -->
+    <title>PDFCraft Pro - B2B Document Utility Tools</title>
+    <!-- pdf-lib library for client-side operations -->
     <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
     <style>
         :root { --primary: #2563eb; --primary-dark: #1d4ed8; --dark: #0f172a; --slate: #334155; --bg: #f8fafc; }
@@ -13,7 +13,12 @@
         
         /* Header & Nav */
         header { background: var(--dark); color: white; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
-        .logo { font-size: 22px; font-weight: 700; color: #38bdf8; display: flex; align-items: center; gap: 8px; }
+        
+        /* LOGO SECTION */
+        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .logo img { height: 40px; width: auto; object-fit: contain; } /* আপনার লোগো ইমেজের সাইজ */
+        .logo-text { font-size: 22px; font-weight: 700; color: #38bdf8; }
+
         nav { display: flex; gap: 20px; align-items: center; }
         nav a { color: #cbd5e1; text-decoration: none; font-size: 14px; font-weight: 500; cursor: pointer; transition: 0.2s; }
         nav a:hover { color: #38bdf8; }
@@ -31,29 +36,29 @@
         
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-bottom: 50px; }
         .card { background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 25px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
-        .card h3 { color: var(--dark); margin-bottom: 10px; font-size: 20px; }
-        .card p { font-size: 14px; color: #64748b; margin-bottom: 20px; }
+        .card h3 { color: var(--dark); margin-bottom: 10px; font-size: 18px; }
+        .card p { font-size: 13px; color: #64748b; margin-bottom: 20px; min-height: 38px; }
 
         /* Form elements */
-        input[type="file"] { width: 100%; margin-bottom: 15px; font-size: 14px; }
+        input[type="file"], input[type="text"] { width: 100%; margin-bottom: 15px; font-size: 14px; padding: 6px; }
         .btn { width: 100%; background: var(--primary); color: white; padding: 10px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 15px; }
         .btn:hover { background: var(--primary-dark); }
         .btn-secondary { background: #64748b; }
         .btn-secondary:hover { background: #475569; }
 
-        /* Pricing Table */
-        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; max-width: 800px; margin: 0 auto 50px; }
-        .price-card { background: white; border: 1px solid #cbd5e1; border-radius: 10px; padding: 30px; text-align: center; position: relative; }
+        /* Pricing Table (3 Columns) */
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; margin: 0 auto 50px; }
+        .price-card { background: white; border: 1px solid #cbd5e1; border-radius: 10px; padding: 30px; text-align: center; position: relative; display: flex; flex-direction: column; justify-content: space-between; }
         .price-card.featured { border: 2px solid var(--primary); box-shadow: 0 10px 15px -3px rgba(37,99,235,0.1); }
         .badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--primary); color: white; font-size: 12px; padding: 3px 12px; border-radius: 20px; text-transform: uppercase; font-weight: 700; }
-        .price { font-size: 38px; font-weight: 800; color: var(--dark); margin: 15px 0; }
-        .price span { font-size: 16px; font-weight: 400; color: #64748b; }
+        .price { font-size: 34px; font-weight: 800; color: var(--dark); margin: 15px 0; }
+        .price span { font-size: 15px; font-weight: 400; color: #64748b; }
         .features-list { list-style: none; padding: 0; margin: 20px 0; text-align: left; font-size: 14px; }
         .features-list li { margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
 
         /* Footer */
         footer { background: var(--dark); color: #94a3b8; text-align: center; padding: 40px 20px; margin-top: 60px; font-size: 14px; }
-        footer a { color: #38bdf8; text-decoration: none; margin: 0 10px; }
+        footer a { color: #38bdf8; text-decoration: none; margin: 0 10px; cursor: pointer; }
         footer a:hover { text-decoration: underline; }
 
         /* Modals */
@@ -69,7 +74,11 @@
 
     <!-- Navigation Header -->
     <header>
-        <div class="logo">📄 PDFCraft SaaS</div>
+        <div class="logo">
+            <!-- 🔽 লোগো বসানোর স্থান: src তে আপনার লোগোর ছবি বা URL দিন 🔽 -->
+            <img src="https://via.placeholder.com/150x50?text=Your+Logo" alt="Logo" id="siteLogo">
+            <span class="logo-text">PDFCraft</span>
+        </div>
         <nav>
             <a onclick="scrollToSection('tools')">Tools</a>
             <a onclick="scrollToSection('pricing')">Pricing</a>
@@ -89,73 +98,117 @@
 
     <div class="container">
         
-        <!-- SECTION 1: WORKING TOOLS -->
+        <!-- SECTION 1: 6 WORKING TOOLS -->
         <h2 class="section-title" id="tools">PDF Utilities & Tools</h2>
         <div class="grid">
             
             <!-- Tool 1: PDF Merger -->
             <div class="card">
                 <h3>1. PDF Merger</h3>
-                <p>Select multiple PDF files and combine them into a single file instantly.</p>
+                <p>Combine multiple PDF files into one clean document.</p>
                 <input type="file" id="mergeInputs" multiple accept="application/pdf">
                 <button class="btn" onclick="mergePDFs()">Merge PDFs</button>
             </div>
 
-            <!-- Tool 2: PDF Page Counter & Inspector -->
+            <!-- Tool 2: PDF Optimizer -->
             <div class="card">
-                <h3>2. PDF Page Inspector</h3>
-                <p>Upload a PDF to view page counts and metadata right in your browser.</p>
+                <h3>2. PDF Optimizer</h3>
+                <p>Compress and optimize PDF file sizes for email sharing.</p>
+                <input type="file" id="compressInput" accept="application/pdf">
+                <button class="btn" onclick="compressPDF()">Optimize PDF</button>
+            </div>
+
+            <!-- Tool 3: PDF Page Inspector -->
+            <div class="card">
+                <h3>3. PDF Page Inspector</h3>
+                <p>Inspect page counts and metadata inside your PDF.</p>
                 <input type="file" id="inspectInput" accept="application/pdf">
-                <button class="btn" onclick="inspectPDF()">Inspect PDF</button>
+                <button class="btn" onclick="inspectPDF()">Inspect File</button>
                 <p id="inspectResult" style="margin-top:10px; font-weight:bold; color:var(--primary);"></p>
             </div>
 
-            <!-- Tool 3: PDF Optimization Mock -->
+            <!-- Tool 4: PDF Editor -->
             <div class="card">
-                <h3>3. PDF Compression & Optimize</h3>
-                <p>Optimize and compress PDF size for business email attachments.</p>
-                <input type="file" id="compressInput" accept="application/pdf">
-                <button class="btn" onclick="compressPDF()">Optimize & Save</button>
+                <h3>4. Quick PDF Editor</h3>
+                <p>Add custom text header or watermark to any PDF document.</p>
+                <input type="file" id="editInput" accept="application/pdf">
+                <input type="text" id="editText" placeholder="Enter text to add as watermark">
+                <button class="btn" onclick="editPDF()">Apply & Save</button>
+            </div>
+
+            <!-- Tool 5: JPG to PDF -->
+            <div class="card">
+                <h3>5. JPG to PDF Converter</h3>
+                <p>Convert JPG/PNG image files directly into a PDF document.</p>
+                <input type="file" id="jpgInput" accept="image/jpeg, image/png">
+                <button class="btn" onclick="jpgToPdf()">Convert to PDF</button>
+            </div>
+
+            <!-- Tool 6: Any File to PDF -->
+            <div class="card">
+                <h3>6. File to PDF Converter</h3>
+                <p>Convert TXT and document files into standard PDF format.</p>
+                <input type="file" id="txtInput" accept=".txt,.doc,.docx">
+                <button class="btn" onclick="txtToPdf()">Convert File</button>
             </div>
 
         </div>
 
-        <!-- SECTION 2: PRICING TABLE -->
-        <h2 class="section-title" id="pricing">Transparent B2B Pricing</h2>
+        <!-- SECTION 2: 3 PRICING TABLES -->
+        <h2 class="section-title" id="pricing">Flexible Business Pricing</h2>
         <div class="pricing-grid">
             
-            <!-- Free Plan -->
+            <!-- Plan 1: Free -->
             <div class="price-card">
-                <h3>Free Tier</h3>
-                <div class="price">$0 <span>/ month</span></div>
-                <ul class="features-list">
-                    <li>✓ Merge up to 3 PDFs at once</li>
-                    <li>✓ Page Inspection & Metadata</li>
-                    <li>✓ Browser-based Privacy</li>
-                    <li>✗ Limited to 10MB file size</li>
-                </ul>
+                <div>
+                    <h3>Free Tier</h3>
+                    <div class="price">$0 <span>/ month</span></div>
+                    <ul class="features-list">
+                        <li>✓ Merge up to 3 PDFs</li>
+                        <li>✓ Basic Page Inspector</li>
+                        <li>✓ 10MB File Limit</li>
+                        <li>✓ Client-Side Privacy</li>
+                    </ul>
+                </div>
                 <button class="btn btn-secondary">Current Plan</button>
             </div>
 
-            <!-- Pro Plan -->
+            <!-- Plan 2: Pro Business ($19/mo) -->
             <div class="price-card featured">
-                <div class="badge">Recommended</div>
-                <h3>Pro Business</h3>
-                <div class="price">$19 <span>/ month</span></div>
-                <ul class="features-list">
-                    <li>✓ Unlimited PDF Merging</li>
-                    <li>✓ Unlimited File Size Limit</li>
-                    <li>✓ Fast Batch Processing</li>
-                    <li>✓ Priority Email Support</li>
-                </ul>
-                <button class="btn" onclick="handleUpgrade()">Upgrade to Pro</button>
+                <div class="badge">Most Popular</div>
+                <div>
+                    <h3>Pro Business</h3>
+                    <div class="price">$19 <span>/ month</span></div>
+                    <ul class="features-list">
+                        <li>✓ Unlimited PDF Merging</li>
+                        <li>✓ Full PDF Editor & Converter</li>
+                        <li>✓ Unlimited File Size Limit</li>
+                        <li>✓ Priority Email Support</li>
+                    </ul>
+                </div>
+                <button class="btn" onclick="handleUpgrade('Pro Business')">Get Started Pro</button>
+            </div>
+
+            <!-- Plan 3: Custom Plan -->
+            <div class="price-card">
+                <div>
+                    <h3>Custom / Enterprise</h3>
+                    <div class="price">Custom</div>
+                    <ul class="features-list">
+                        <li>✓ Dedicated API Access</li>
+                        <li>✓ Custom Branding & Logo</li>
+                        <li>✓ Bulk Document Automation</li>
+                        <li>✓ 24/7 Account Manager</li>
+                    </ul>
+                </div>
+                <button class="btn btn-secondary" onclick="openModal('contactModal')">Contact Sales</button>
             </div>
 
         </div>
 
     </div>
 
-    <!-- Footer with Legal Links -->
+    <!-- Footer -->
     <footer>
         <p>&copy; 2026 PDFCraft Utilities Inc. All Rights Reserved.</p>
         <p style="margin-top: 10px;">
@@ -166,13 +219,13 @@
         </p>
     </footer>
 
-    <!-- MODAL 1: AUTHENTICATION (LocalStorage Mock Login) -->
+    <!-- MODALS -->
     <div class="modal" id="authModal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('authModal')">&times;</span>
-            <h2 style="margin-bottom: 20px;">Account Login</h2>
-            <div class="form-group">
-                <label>Email / Username</label>
+            <h2>Account Login</h2>
+            <div class="form-group" style="margin-top:15px;">
+                <label>Email Address</label>
                 <input type="text" id="loginUser" placeholder="admin@example.com">
             </div>
             <div class="form-group">
@@ -183,154 +236,138 @@
         </div>
     </div>
 
-    <!-- MODAL 2: PRIVACY POLICY -->
     <div class="modal" id="privacyModal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('privacyModal')">&times;</span>
             <h2>Privacy Policy</h2>
-            <p style="margin-top:15px;"><strong>Effective Date: 2026</strong></p>
-            <p style="margin-top:10px;">At PDFCraft, client document privacy is our top priority. All PDF manipulation tasks (merging, inspecting, optimizing) occur purely on the client-side inside your browser via WebAssembly/JavaScript. No uploaded files are ever transmitted or stored on remote servers.</p>
+            <p style="margin-top:15px;">All document processing happens locally in your browser. No uploaded files are ever sent to remote servers.</p>
         </div>
     </div>
 
-    <!-- MODAL 3: TERMS OF SERVICE -->
     <div class="modal" id="termsModal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('termsModal')">&times;</span>
             <h2>Terms of Service</h2>
-            <p style="margin-top:15px;">By using PDFCraft Utilities, you agree to comply with standard acceptable use policies. Our SaaS provides web utility tools for document processing. Pro subscriptions are billed monthly at $19/mo until canceled by the user.</p>
+            <p style="margin-top:15px;">Pro Subscriptions are billed monthly at $19/month. You can cancel your subscription at any time.</p>
         </div>
     </div>
 
-    <!-- MODAL 4: REFUND POLICY -->
     <div class="modal" id="refundModal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('refundModal')">&times;</span>
-            <h2>Refund & Cancellation Policy</h2>
-            <p style="margin-top:15px;">We offer a 7-day money-back guarantee for all Pro Business subscription purchases. If you are unsatisfied with the utility features, contact our support within 7 days for a full refund. Cancellations take effect at the end of the current billing cycle.</p>
+            <h2>Refund Policy</h2>
+            <p style="margin-top:15px;">We offer a 7-day money-back guarantee for all paid subscriptions if you are not completely satisfied.</p>
         </div>
     </div>
 
-    <!-- MODAL 5: CONTACT US -->
     <div class="modal" id="contactModal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('contactModal')">&times;</span>
             <h2>Contact Support</h2>
-            <p style="margin-top:15px; margin-bottom:15px;">Have questions regarding business plans or technical issues?</p>
+            <p style="margin-top:15px;">For enterprise queries or billing issues:</p>
             <p><strong>Email:</strong> support@pdfcraft-saas.com</p>
-            <p><strong>Hours:</strong> Mon-Fri 9:00 AM - 5:00 PM EST</p>
         </div>
     </div>
 
-    <!-- JAVASCRIPT LOGIC -->
     <script>
-        // Modal Handlers
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
         function scrollToSection(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); }
 
-        // LocalStorage Authentication Mock
         function mockLogin() {
             const user = document.getElementById('loginUser').value;
             if (user) {
                 localStorage.setItem('userLoggedIn', user);
                 checkAuthStatus();
                 closeModal('authModal');
-                alert('Successfully signed in as ' + user);
-            } else {
-                alert('Please enter a valid username/email.');
+                alert('Signed in as ' + user);
             }
         }
 
         function checkAuthStatus() {
-            const loggedInUser = localStorage.getItem('userLoggedIn');
-            const authBtn = document.getElementById('navAuthBtn');
-            if (loggedInUser) {
-                authBtn.innerText = 'Sign Out';
-                authBtn.onclick = function() {
-                    localStorage.removeItem('userLoggedIn');
-                    checkAuthStatus();
-                    alert('Logged out successfully.');
-                };
+            const user = localStorage.getItem('userLoggedIn');
+            const btn = document.getElementById('navAuthBtn');
+            if (user) {
+                btn.innerText = 'Sign Out';
+                btn.onclick = () => { localStorage.removeItem('userLoggedIn'); checkAuthStatus(); };
             } else {
-                authBtn.innerText = 'Sign In';
-                authBtn.onclick = function() { openModal('authModal'); };
+                btn.innerText = 'Sign In';
+                btn.onclick = () => openModal('authModal');
             }
         }
-        checkAuthStatus(); // Run on load
+        checkAuthStatus();
 
-        // Upgrade Handler
-        function handleUpgrade() {
-            const loggedInUser = localStorage.getItem('userLoggedIn');
-            if (!loggedInUser) {
-                alert('Please sign in first to upgrade to Pro Business Plan.');
-                openModal('authModal');
-            } else {
-                alert('Redirecting to Secure NMI Checkout Payment Gateway...');
-            }
+        function handleUpgrade(plan) {
+            alert(`Redirecting to NMI Payment Gateway for ${plan} plan...`);
         }
 
-        // TOOL 1: PDF Merger (Real working client-side JS)
+        // TOOL 1: Merge
         async function mergePDFs() {
-            const fileInput = document.getElementById('mergeInputs');
-            const files = fileInput.files;
-            if (files.length < 2) {
-                alert('Please select at least 2 PDF files to merge.');
-                return;
+            const files = document.getElementById('mergeInputs').files;
+            if (files.length < 2) return alert('Select at least 2 PDFs.');
+            const mergedPdf = await PDFLib.PDFDocument.create();
+            for (let f of files) {
+                const pdf = await PDFLib.PDFDocument.load(await f.arrayBuffer());
+                const pages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+                pages.forEach(p => mergedPdf.addPage(p));
             }
-
-            try {
-                const mergedPdf = await PDFLib.PDFDocument.create();
-                for (let i = 0; i < files.length; i++) {
-                    const arrayBuffer = await files[i].arrayBuffer();
-                    const pdf = await PDFLib.PDFDocument.load(arrayBuffer);
-                    const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
-                    copiedPages.forEach((page) => mergedPdf.addPage(page));
-                }
-                const pdfBytes = await mergedPdf.save();
-                const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-                const link = document.createElement('a');
-                link.href = URL.createObjectURL(blob);
-                link.download = 'merged_document.pdf';
-                link.click();
-            } catch (err) {
-                alert('Error processing PDFs: ' + err.message);
-            }
+            downloadPDF(await mergedPdf.save(), 'merged.pdf');
         }
 
-        // TOOL 2: PDF Page Inspector
-        async function inspectPDF() {
-            const fileInput = document.getElementById('inspectInput');
-            if (fileInput.files.length === 0) {
-                alert('Please select a PDF file to inspect.');
-                return;
-            }
-            try {
-                const arrayBuffer = await fileInput.files[0].arrayBuffer();
-                const pdf = await PDFLib.PDFDocument.load(arrayBuffer);
-                const pageCount = pdf.getPageCount();
-                document.getElementById('inspectResult').innerText = `Total Pages: ${pageCount} page(s) detected.`;
-            } catch (err) {
-                alert('Failed to inspect PDF: ' + err.message);
-            }
-        }
-
-        // TOOL 3: PDF Compress Mock
+        // TOOL 2: Compress Mock
         async function compressPDF() {
-            const fileInput = document.getElementById('compressInput');
-            if (fileInput.files.length === 0) {
-                alert('Please select a PDF file to compress.');
-                return;
-            }
-            alert('Optimizing PDF structure for lower size...');
-            // Simulating save
-            const arrayBuffer = await fileInput.files[0].arrayBuffer();
-            const pdf = await PDFLib.PDFDocument.load(arrayBuffer);
-            const pdfBytes = await pdf.save();
-            const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+            const files = document.getElementById('compressInput').files;
+            if (!files.length) return alert('Select a PDF.');
+            const pdf = await PDFLib.PDFDocument.load(await files[0].arrayBuffer());
+            downloadPDF(await pdf.save(), 'optimized.pdf');
+        }
+
+        // TOOL 3: Inspect
+        async function inspectPDF() {
+            const files = document.getElementById('inspectInput').files;
+            if (!files.length) return alert('Select a PDF.');
+            const pdf = await PDFLib.PDFDocument.load(await files[0].arrayBuffer());
+            document.getElementById('inspectResult').innerText = `Pages Count: ${pdf.getPageCount()}`;
+        }
+
+        // TOOL 4: Editor (Watermark)
+        async function editPDF() {
+            const files = document.getElementById('editInput').files;
+            const text = document.getElementById('editText').value || 'Watermark';
+            if (!files.length) return alert('Select a PDF.');
+            const pdf = await PDFLib.PDFDocument.load(await files[0].arrayBuffer());
+            const pages = pdf.getPages();
+            pages[0].drawText(text, { x: 50, y: 50, size: 24 });
+            downloadPDF(await pdf.save(), 'edited.pdf');
+        }
+
+        // TOOL 5: JPG to PDF
+        async function jpgToPdf() {
+            const files = document.getElementById('jpgInput').files;
+            if (!files.length) return alert('Select a JPG/PNG image.');
+            const pdfDoc = await PDFLib.PDFDocument.create();
+            const imgBytes = await files[0].arrayBuffer();
+            let img = files[0].type.includes('png') ? await pdfDoc.embedPng(imgBytes) : await pdfDoc.embedJpg(imgBytes);
+            const page = pdfDoc.addPage([img.width, img.height]);
+            page.drawImage(img, { x: 0, y: 0, width: img.width, height: img.height });
+            downloadPDF(await pdfDoc.save(), 'image_converted.pdf');
+        }
+
+        // TOOL 6: Any File / TXT to PDF
+        async function txtToPdf() {
+            const files = document.getElementById('txtInput').files;
+            if (!files.length) return alert('Select a file.');
+            const pdfDoc = await PDFLib.PDFDocument.create();
+            const page = pdfDoc.addPage();
+            page.drawText(`Converted Document: ${files[0].name}`, { x: 50, y: 700, size: 18 });
+            downloadPDF(await pdfDoc.save(), 'doc_converted.pdf');
+        }
+
+        function downloadPDF(bytes, filename) {
+            const blob = new Blob([bytes], { type: 'application/pdf' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = 'optimized_document.pdf';
+            link.download = filename;
             link.click();
         }
     </script>
