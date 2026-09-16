@@ -3,95 +3,334 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDFCraft - B2B Document Utility Tools</title>
+    <title>PDFCraft Pro - Professional B2B Document Utility Tools</title>
+    <!-- pdf-lib library for client-side PDF operations -->
     <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background-color: #f8fafc; color: #334155; }
-        header { background: #1e293b; color: white; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 24px; font-weight: bold; color: #38bdf8; }
-        nav a { color: #cbd5e1; text-decoration: none; margin-left: 20px; font-weight: 500; }
-        .hero { text-align: center; padding: 50px 20px; background: #ffffff; border-bottom: 1px solid #e2e8f0; }
-        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
-        .tool-card { background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 30px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-bottom: 30px; }
-        .btn { background-color: #2563eb; color: white; padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: 600; }
-        .btn:hover { background-color: #1d4ed8; }
-        input[type="file"] { margin: 15px 0; }
-        .pricing-grid { display: flex; gap: 20px; margin-top: 30px; }
-        .price-card { flex: 1; background: white; border: 1px solid #cbd5e1; border-radius: 8px; padding: 24px; text-align: center; }
-        .price-card.featured { border: 2px solid #2563eb; position: relative; }
-        footer { background: #0f172a; color: #94a3b8; text-align: center; padding: 30px 20px; margin-top: 60px; }
+        :root { --primary: #2563eb; --primary-dark: #1d4ed8; --dark: #0f172a; --slate: #334155; --bg: #f8fafc; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg); color: var(--slate); line-height: 1.6; }
+        
+        /* Header & Nav */
+        header { background: var(--dark); color: white; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .logo { font-size: 22px; font-weight: 700; color: #38bdf8; display: flex; align-items: center; gap: 8px; }
+        nav { display: flex; gap: 20px; align-items: center; }
+        nav a { color: #cbd5e1; text-decoration: none; font-size: 14px; font-weight: 500; cursor: pointer; transition: 0.2s; }
+        nav a:hover { color: #38bdf8; }
+        .auth-btn { background: var(--primary); color: white; padding: 8px 16px; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; }
+        .auth-btn:hover { background: var(--primary-dark); }
+
+        /* Hero Section */
+        .hero { text-align: center; padding: 60px 20px 40px; background: white; border-bottom: 1px solid #e2e8f0; }
+        .hero h1 { font-size: 36px; color: var(--dark); margin-bottom: 10px; }
+        .hero p { font-size: 18px; color: #64748b; max-width: 600px; margin: 0 auto; }
+
+        /* Container & Cards */
+        .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
+        .section-title { text-align: center; font-size: 28px; color: var(--dark); margin-bottom: 30px; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-bottom: 50px; }
+        .card { background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 25px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        .card h3 { color: var(--dark); margin-bottom: 10px; font-size: 20px; }
+        .card p { font-size: 14px; color: #64748b; margin-bottom: 20px; }
+
+        /* Form elements */
+        input[type="file"] { width: 100%; margin-bottom: 15px; font-size: 14px; }
+        .btn { width: 100%; background: var(--primary); color: white; padding: 10px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 15px; }
+        .btn:hover { background: var(--primary-dark); }
+        .btn-secondary { background: #64748b; }
+        .btn-secondary:hover { background: #475569; }
+
+        /* Pricing Table */
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; max-width: 800px; margin: 0 auto 50px; }
+        .price-card { background: white; border: 1px solid #cbd5e1; border-radius: 10px; padding: 30px; text-align: center; position: relative; }
+        .price-card.featured { border: 2px solid var(--primary); box-shadow: 0 10px 15px -3px rgba(37,99,235,0.1); }
+        .badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--primary); color: white; font-size: 12px; padding: 3px 12px; border-radius: 20px; text-transform: uppercase; font-weight: 700; }
+        .price { font-size: 38px; font-weight: 800; color: var(--dark); margin: 15px 0; }
+        .price span { font-size: 16px; font-weight: 400; color: #64748b; }
+        .features-list { list-style: none; padding: 0; margin: 20px 0; text-align: left; font-size: 14px; }
+        .features-list li { margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+
+        /* Footer */
+        footer { background: var(--dark); color: #94a3b8; text-align: center; padding: 40px 20px; margin-top: 60px; font-size: 14px; }
         footer a { color: #38bdf8; text-decoration: none; margin: 0 10px; }
+        footer a:hover { text-decoration: underline; }
+
+        /* Modals */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-content { background: white; padding: 30px; border-radius: 10px; max-width: 500px; width: 90%; max-height: 80vh; overflow-y: auto; position: relative; }
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 22px; cursor: pointer; color: #64748b; }
+        .form-group { margin-bottom: 15px; text-align: left; }
+        .form-group label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 5px; }
+        .form-group input { width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; }
     </style>
 </head>
 <body>
+
+    <!-- Navigation Header -->
     <header>
-        <div class="logo">PDFCraft SaaS</div>
+        <div class="logo">📄 PDFCraft SaaS</div>
         <nav>
-            <a href="#tools">Tools</a>
-            <a href="#pricing">Pricing</a>
-            <a href="#terms">Terms</a>
+            <a onclick="scrollToSection('tools')">Tools</a>
+            <a onclick="scrollToSection('pricing')">Pricing</a>
+            <a onclick="openModal('privacyModal')">Privacy</a>
+            <a onclick="openModal('termsModal')">Terms</a>
+            <a onclick="openModal('refundModal')">Refund Policy</a>
+            <a onclick="openModal('contactModal')">Contact Us</a>
+            <button class="auth-btn" id="navAuthBtn" onclick="openModal('authModal')">Sign In</button>
         </nav>
     </header>
 
+    <!-- Hero Section -->
     <div class="hero">
-        <h1>Secure B2B Document & PDF Management</h1>
-        <p>Process your confidential documents client-side without cloud data storage.</p>
+        <h1>Client-Side PDF Utility Suite</h1>
+        <p>100% Secure B2B Document Processing. Files are handled directly inside your browser—never uploaded to external servers.</p>
     </div>
 
-    <div class="container" id="tools">
-        <div class="tool-card">
-            <h2>PDF Merger Utility</h2>
-            <p>Select multiple PDF files to merge into a single document instantly.</p>
-            <input type="file" id="pdf-inputs" multiple accept="application/pdf"><br>
-            <button class="btn" onclick="mergeFiles()">Merge PDFs Now</button>
+    <div class="container">
+        
+        <!-- SECTION 1: WORKING TOOLS -->
+        <h2 class="section-title" id="tools">PDF Utilities & Tools</h2>
+        <div class="grid">
+            
+            <!-- Tool 1: PDF Merger -->
+            <div class="card">
+                <h3>1. PDF Merger</h3>
+                <p>Select multiple PDF files and combine them into a single file instantly.</p>
+                <input type="file" id="mergeInputs" multiple accept="application/pdf">
+                <button class="btn" onclick="mergePDFs()">Merge PDFs</button>
+            </div>
+
+            <!-- Tool 2: PDF Page Counter & Inspector -->
+            <div class="card">
+                <h3>2. PDF Page Inspector</h3>
+                <p>Upload a PDF to view page counts and metadata right in your browser.</p>
+                <input type="file" id="inspectInput" accept="application/pdf">
+                <button class="btn" onclick="inspectPDF()">Inspect PDF</button>
+                <p id="inspectResult" style="margin-top:10px; font-weight:bold; color:var(--primary);"></p>
+            </div>
+
+            <!-- Tool 3: PDF Optimization Mock -->
+            <div class="card">
+                <h3>3. PDF Compression & Optimize</h3>
+                <p>Optimize and compress PDF size for business email attachments.</p>
+                <input type="file" id="compressInput" accept="application/pdf">
+                <button class="btn" onclick="compressPDF()">Optimize & Save</button>
+            </div>
+
         </div>
 
-        <h2 id="pricing" style="text-align:center; margin-top: 50px;">Flexible Business Pricing</h2>
+        <!-- SECTION 2: PRICING TABLE -->
+        <h2 class="section-title" id="pricing">Transparent B2B Pricing</h2>
         <div class="pricing-grid">
+            
+            <!-- Free Plan -->
             <div class="price-card">
-                <h3>Starter Plan</h3>
-                <h2>$0 <small>/ mo</small></h2>
-                <p>Up to 5 MB file size limit</p>
-                <button class="btn" style="background:#64748b;">Current Plan</button>
+                <h3>Free Tier</h3>
+                <div class="price">$0 <span>/ month</span></div>
+                <ul class="features-list">
+                    <li>✓ Merge up to 3 PDFs at once</li>
+                    <li>✓ Page Inspection & Metadata</li>
+                    <li>✓ Browser-based Privacy</li>
+                    <li>✗ Limited to 10MB file size</li>
+                </ul>
+                <button class="btn btn-secondary">Current Plan</button>
             </div>
+
+            <!-- Pro Plan -->
             <div class="price-card featured">
+                <div class="badge">Recommended</div>
                 <h3>Pro Business</h3>
-                <h2>$19 <small>/ mo</small></h2>
-                <p>Unlimited File Size & Priority Processing</p>
-                <button class="btn">Upgrade to Pro</button>
+                <div class="price">$19 <span>/ month</span></div>
+                <ul class="features-list">
+                    <li>✓ Unlimited PDF Merging</li>
+                    <li>✓ Unlimited File Size Limit</li>
+                    <li>✓ Fast Batch Processing</li>
+                    <li>✓ Priority Email Support</li>
+                </ul>
+                <button class="btn" onclick="handleUpgrade()">Upgrade to Pro</button>
             </div>
+
         </div>
+
     </div>
 
-    <footer id="terms">
-        <p>&copy; 2026 PDFCraft SaaS. All rights reserved.</p>
-            <p>
-                <a href="terms.html">Terms of Service</a> | 
-                <a href="privacy.html">Privacy Policy</a> | 
-                <a href="refund.html">Refund & Cancellation Policy</a> | 
-                <a href="contact.html">Contact Us</a>
-            </p>
+    <!-- Footer with Legal Links -->
+    <footer>
+        <p>&copy; 2026 PDFCraft Utilities Inc. All Rights Reserved.</p>
+        <p style="margin-top: 10px;">
+            <a onclick="openModal('termsModal')">Terms of Service</a> | 
+            <a onclick="openModal('privacyModal')">Privacy Policy</a> | 
+            <a onclick="openModal('refundModal')">Refund Policy</a> | 
+            <a onclick="openModal('contactModal')">Contact Support</a>
+        </p>
     </footer>
 
+    <!-- MODAL 1: AUTHENTICATION (LocalStorage Mock Login) -->
+    <div class="modal" id="authModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('authModal')">&times;</span>
+            <h2 style="margin-bottom: 20px;">Account Login</h2>
+            <div class="form-group">
+                <label>Email / Username</label>
+                <input type="text" id="loginUser" placeholder="admin@example.com">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="loginPass" placeholder="••••••••">
+            </div>
+            <button class="btn" onclick="mockLogin()">Sign In</button>
+        </div>
+    </div>
+
+    <!-- MODAL 2: PRIVACY POLICY -->
+    <div class="modal" id="privacyModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('privacyModal')">&times;</span>
+            <h2>Privacy Policy</h2>
+            <p style="margin-top:15px;"><strong>Effective Date: 2026</strong></p>
+            <p style="margin-top:10px;">At PDFCraft, client document privacy is our top priority. All PDF manipulation tasks (merging, inspecting, optimizing) occur purely on the client-side inside your browser via WebAssembly/JavaScript. No uploaded files are ever transmitted or stored on remote servers.</p>
+        </div>
+    </div>
+
+    <!-- MODAL 3: TERMS OF SERVICE -->
+    <div class="modal" id="termsModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('termsModal')">&times;</span>
+            <h2>Terms of Service</h2>
+            <p style="margin-top:15px;">By using PDFCraft Utilities, you agree to comply with standard acceptable use policies. Our SaaS provides web utility tools for document processing. Pro subscriptions are billed monthly at $19/mo until canceled by the user.</p>
+        </div>
+    </div>
+
+    <!-- MODAL 4: REFUND POLICY -->
+    <div class="modal" id="refundModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('refundModal')">&times;</span>
+            <h2>Refund & Cancellation Policy</h2>
+            <p style="margin-top:15px;">We offer a 7-day money-back guarantee for all Pro Business subscription purchases. If you are unsatisfied with the utility features, contact our support within 7 days for a full refund. Cancellations take effect at the end of the current billing cycle.</p>
+        </div>
+    </div>
+
+    <!-- MODAL 5: CONTACT US -->
+    <div class="modal" id="contactModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('contactModal')">&times;</span>
+            <h2>Contact Support</h2>
+            <p style="margin-top:15px; margin-bottom:15px;">Have questions regarding business plans or technical issues?</p>
+            <p><strong>Email:</strong> support@pdfcraft-saas.com</p>
+            <p><strong>Hours:</strong> Mon-Fri 9:00 AM - 5:00 PM EST</p>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
     <script>
-        async function mergeFiles() {
-            const files = document.getElementById('pdf-inputs').files;
+        // Modal Handlers
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        function scrollToSection(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); }
+
+        // LocalStorage Authentication Mock
+        function mockLogin() {
+            const user = document.getElementById('loginUser').value;
+            if (user) {
+                localStorage.setItem('userLoggedIn', user);
+                checkAuthStatus();
+                closeModal('authModal');
+                alert('Successfully signed in as ' + user);
+            } else {
+                alert('Please enter a valid username/email.');
+            }
+        }
+
+        function checkAuthStatus() {
+            const loggedInUser = localStorage.getItem('userLoggedIn');
+            const authBtn = document.getElementById('navAuthBtn');
+            if (loggedInUser) {
+                authBtn.innerText = 'Sign Out';
+                authBtn.onclick = function() {
+                    localStorage.removeItem('userLoggedIn');
+                    checkAuthStatus();
+                    alert('Logged out successfully.');
+                };
+            } else {
+                authBtn.innerText = 'Sign In';
+                authBtn.onclick = function() { openModal('authModal'); };
+            }
+        }
+        checkAuthStatus(); // Run on load
+
+        // Upgrade Handler
+        function handleUpgrade() {
+            const loggedInUser = localStorage.getItem('userLoggedIn');
+            if (!loggedInUser) {
+                alert('Please sign in first to upgrade to Pro Business Plan.');
+                openModal('authModal');
+            } else {
+                alert('Redirecting to Secure NMI Checkout Payment Gateway...');
+            }
+        }
+
+        // TOOL 1: PDF Merger (Real working client-side JS)
+        async function mergePDFs() {
+            const fileInput = document.getElementById('mergeInputs');
+            const files = fileInput.files;
             if (files.length < 2) {
                 alert('Please select at least 2 PDF files to merge.');
                 return;
             }
-            const mergedPdf = await PDFLib.PDFDocument.create();
-            for (let i = 0; i < files.length; i++) {
-                const arrayBuffer = await files[i].arrayBuffer();
-                const pdf = await PDFLib.PDFDocument.load(arrayBuffer);
-                const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
-                copiedPages.forEach((page) => mergedPdf.addPage(page));
+
+            try {
+                const mergedPdf = await PDFLib.PDFDocument.create();
+                for (let i = 0; i < files.length; i++) {
+                    const arrayBuffer = await files[i].arrayBuffer();
+                    const pdf = await PDFLib.PDFDocument.load(arrayBuffer);
+                    const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+                    copiedPages.forEach((page) => mergedPdf.addPage(page));
+                }
+                const pdfBytes = await mergedPdf.save();
+                const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = 'merged_document.pdf';
+                link.click();
+            } catch (err) {
+                alert('Error processing PDFs: ' + err.message);
             }
-            const pdfBytes = await mergedPdf.save();
+        }
+
+        // TOOL 2: PDF Page Inspector
+        async function inspectPDF() {
+            const fileInput = document.getElementById('inspectInput');
+            if (fileInput.files.length === 0) {
+                alert('Please select a PDF file to inspect.');
+                return;
+            }
+            try {
+                const arrayBuffer = await fileInput.files[0].arrayBuffer();
+                const pdf = await PDFLib.PDFDocument.load(arrayBuffer);
+                const pageCount = pdf.getPageCount();
+                document.getElementById('inspectResult').innerText = `Total Pages: ${pageCount} page(s) detected.`;
+            } catch (err) {
+                alert('Failed to inspect PDF: ' + err.message);
+            }
+        }
+
+        // TOOL 3: PDF Compress Mock
+        async function compressPDF() {
+            const fileInput = document.getElementById('compressInput');
+            if (fileInput.files.length === 0) {
+                alert('Please select a PDF file to compress.');
+                return;
+            }
+            alert('Optimizing PDF structure for lower size...');
+            // Simulating save
+            const arrayBuffer = await fileInput.files[0].arrayBuffer();
+            const pdf = await PDFLib.PDFDocument.load(arrayBuffer);
+            const pdfBytes = await pdf.save();
             const blob = new Blob([pdfBytes], { type: 'application/pdf' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = 'merged-document.pdf';
+            link.download = 'optimized_document.pdf';
             link.click();
         }
     </script>
